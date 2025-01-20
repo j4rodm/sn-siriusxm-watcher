@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element audit="true" db_object_id="be3e9f572b47de10cb9dff55ce91bf32" label="Song" max_length="40" name="x_jarodm_xmradio_song" type="collection">
+        <element label="Spotify" max_length="255" name="spotify" type="url"/>
+        <element label="Youtube Music" max_length="255" name="youtube_music" type="url"/>
+        <element label="Artist raw" max_length="255" name="artist_raw" type="string"/>
+        <element label="Apple Music" max_length="255" name="apple_music" type="url"/>
+        <element display="true" label="Name" max_length="255" name="name" type="string"/>
+        <element label="ID" max_length="40" name="id" type="string"/>
+        <element label="Amazon" max_length="255" name="amazon" type="url"/>
+        <element label="iTunes" max_length="255" name="itunes" type="url"/>
+        <element label="Youtube" max_length="255" name="youtube" type="url"/>
+        <element label="Artist" max_length="40" name="artist" reference="x_jarodm_xmradio_artist" type="reference"/>
+        <element label="Spotify Preview" max_length="255" name="spotify_preview" type="url"/>
+        <element label="Deezer" max_length="255" name="deezer" type="url"/>
+        <element label="Tidal" max_length="255" name="tidal" type="url"/>
+        <element label="Pandora" max_length="255" name="pandora" type="url"/>
+        <element label="Spotify Cover" max_length="255" name="spotify_cover" type="url"/>
+        <element label="Amazon Music" max_length="255" name="amazon_music" type="url"/>
+        <element label=" Spotify ID" max_length="255" name="spotify_id" type="string"/>
+        <element label="Qobuz" max_length="255" name="qobuz" type="url"/>
+        <element label="Soundcloud" max_length="255" name="soundcloud" type="url"/>
+    </element>
+</database>

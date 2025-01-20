@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="cbbecb172b07de10cb9dff55ce91bf6e" label="Station" max_length="40" name="x_jarodm_xmradio_station" type="collection">
+        <element display="true" label="Name" max_length="120" name="name" type="string"/>
+        <element label="ID" max_length="20" name="id" type="string"/>
+        <element label="Playlist" max_length="120" name="playlist" type="string"/>
+        <element label="Last seen" max_length="40" name="last_seen" type="glide_date_time"/>
+        <element label="URL" max_length="120" name="url" type="url"/>
+        <element label="Number" max_length="40" name="number" type="integer"/>
+        <element label="Apple playlist" max_length="120" name="apple_playlist" type="string"/>
+        <element label="Log songs" max_length="40" name="log_songs" type="boolean"/>
+    </element>
+</database>

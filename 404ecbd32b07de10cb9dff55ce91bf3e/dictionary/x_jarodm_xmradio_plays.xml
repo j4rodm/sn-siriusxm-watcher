@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="d93f13d72b47de10cb9dff55ce91bf73" label="Song Plays" max_length="40" name="x_jarodm_xmradio_plays" type="collection">
+        <element label="Play ID" max_length="60" name="play_id" type="string"/>
+        <element attributes="encode_utf8=false" label="Song" max_length="32" name="x_jarodm_xmradio_song" reference="x_jarodm_xmradio_song" type="reference"/>
+        <element attributes="encode_utf8=false" label="Station" max_length="32" name="x_jarodm_xmradio_station" reference="x_jarodm_xmradio_station" type="reference"/>
+        <element label="Play time" max_length="40" name="play_time" type="glide_date_time"/>
+        <index name="index">
+            <element name="x_jarodm_xmradio_song"/>
+        </index>
+        <index name="index2">
+            <element name="x_jarodm_xmradio_station"/>
+        </index>
+    </element>
+</database>

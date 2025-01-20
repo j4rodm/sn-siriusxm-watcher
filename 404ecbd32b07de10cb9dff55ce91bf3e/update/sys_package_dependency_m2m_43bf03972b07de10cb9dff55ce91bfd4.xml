@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_package_dependency_m2m">
+    <sys_package_dependency_m2m action="INSERT_OR_UPDATE">
+        <dependency display_value="Automated Action Interface" source="com.snc.automation">82579a73642212104f346c4dbc959196</dependency>
+        <min_version>0.0.1</min_version>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-01-17 21:15:04</sys_created_on>
+        <sys_id>43bf03972b07de10cb9dff55ce91bfd4</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_package display_value="SiriusXM Radio Monitor" source="x_jarodm_xmradio">404ecbd32b07de10cb9dff55ce91bf3e</sys_package>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-01-17 21:15:04</sys_updated_on>
+    </sys_package_dependency_m2m>
+</record_update>

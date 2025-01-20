@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category">
+    <sys_properties_category action="INSERT_OR_UPDATE">
+        <name>SiriusXM</name>
+        <sys_class_name>sys_properties_category</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-01-17 21:09:15</sys_created_on>
+        <sys_id>756e8fd32b07de10cb9dff55ce91bfc8</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>SiriusXM</sys_name>
+        <sys_package display_value="SiriusXM Radio Monitor" source="x_jarodm_xmradio">404ecbd32b07de10cb9dff55ce91bf3e</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="SiriusXM Radio Monitor">404ecbd32b07de10cb9dff55ce91bf3e</sys_scope>
+        <sys_update_name>sys_properties_category_756e8fd32b07de10cb9dff55ce91bfc8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-01-19 02:31:13</sys_updated_on>
+        <title><![CDATA[<p><img src="https://freelogopng.com/images/all_img/1680938182siriusxm-logo-png.png" alt="SiriusXM Logo png title&#61;" width="442" height="84" /></p>
+<p> </p>
+<p>Tracking songs from the popular service</p>]]></title>
+    </sys_properties_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=756e8fd32b07de10cb9dff55ce91bfc8"/>
+</record_update>

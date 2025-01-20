@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="13a353673bc39e10b492d67aa5e45a3a" label="x_jarodm_xmradio_m2m_Station_Artist" max_length="40" name="x_jarodm_xmradio_m2m_artist_coverage" type="collection">
+        <element attributes="encode_utf8=false" label="Artist" max_length="32" name="x_jarodm_xmradio_artist" reference="x_jarodm_xmradio_artist" type="reference"/>
+        <element attributes="encode_utf8=false" label="Station" max_length="32" name="x_jarodm_xmradio_station" reference="x_jarodm_xmradio_station" type="reference"/>
+        <index name="index">
+            <element name="x_jarodm_xmradio_artist"/>
+        </index>
+        <index name="index2">
+            <element name="x_jarodm_xmradio_station"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_jarodm_xmradio.XMTools</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>XMTools</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var XMTools = Class.create();
+XMTools.prototype = {
+    initialize: function() {
+
+        this.log = new global.GSLog("x_jarodm_xmradio.log_level.syslog", "XMTools");
+
+		this.restLogLevel = gs.getProperty('x_jarodm_xmradio.log_level.rest', 'basic');	
+    },
+
+
+
+
+    simplifyLinks: function(linksObj) {
+
+        var getLinksSites = (obj) => {
+            return obj.reduce((acc, link) => {
+                acc[link.site] = link.url;
+                return acc;
+            }, {});
+        };
+
+        var result = getLinksSites(linksObj);
+
+        return result;
+
+    },
+
+
+    buildArtistCoverageFromPlays: function() {
+
+        var playRec = new GlideRecord('x_jarodm_xmradio_plays');
+        playRec.query();
+        while (playRec.next()) {
+
+            var coverageRec = new GlideRecord('x_jarodm_xmradio_m2m_artist_coverage');
+            coverageRec.addQuery('x_jarodm_xmradio_artist', playRec.x_jarodm_xmradio_song.artist);
+            coverageRec.addQuery('x_jarodm_xmradio_station', playRec.x_jarodm_xmradio_station);
+            coverageRec.setLimit(1);
+            coverageRec.query();
+
+            if (coverageRec.next()) {
+                gs.info('Coverage rec for artist already there');
+
+            } else {
+
+                coverageRec.initialize();
+                coverageRec.x_jarodm_xmradio_artist = playRec.x_jarodm_xmradio_song.artist;
+                coverageRec.x_jarodm_xmradio_station = playRec.x_jarodm_xmradio_station;
+
+                coverageRec.insert();
+
+            }
+
+        }
+
+    },
+
+
+    insertIntoSong: function(songObj) {
+
+        //detect songObj
+        if (songObj && songObj.track && songObj.track.name) {
+            gs.info('logging song:>>' + songObj.id + '<<');
+
+        } else {
+            gs.error('insertIntoSong has song problem');
+
+        }
+
+
+        var songRec = new GlideRecord('x_jarodm_xmradio_song');
+        if (songRec.get('id', songObj.track.id)) {
+            //found
+
+            //play_time
+            //play_id
+
+            //gs.info('found song:>>' + songObj.id + '<<' + ' as '+ songRec.);
+        } else {
+            //not found
+
+            songRec.initialize();
+            songRec.id = songObj.track.id;
+            songRec.name = songObj.track.name;
+            songRec.artist_raw = JSON.stringify(songObj.track.artists);
+            songRec.artist = this.insertIntoArtist(songObj.track.artists[0]);
+
+            if (songObj.spotify) {
+                if (songObj.spotify.spotify_id) {
+                    songRec.spotify_id = songObj.spotify.spotify_id;
+                }
+
+                if (songObj.spotify.spotify_id) {
+                    songRec.spotify_id = songObj.spotify.spotify_id;
+                }
+
+                if (songObj.spotify.preview_url) {
+                    songRec.spotify_preview = songObj.spotify.preview_url;
+                }
+
+            }
+
+            var linksObj = this.simplifyLinks(songObj.links);
+
+            if (linksObj.hasOwnProperty('pandora')) {
+                songRec.pandora = linksObj.pandora;
+            }
+            if (linksObj.hasOwnProperty('tidal')) {
+                songRec.tidal = linksObj.tidal;
+            }
+            if (linksObj.hasOwnProperty('youtube')) {
+                songRec.youtube = linksObj.youtube;
+            }
+
+            songRec.insert();
+
+        }
+
+
+
+        return songRec.getUniqueValue();
+
+    },
+
+    insertIntoArtist: function(artistName) {
+
+        //detect songObj
+
+        var artistRecID = '';
+
+        var artistRec = new GlideRecord('x_jarodm_xmradio_artist');
+        if (artistRec.get('name', artistName)) {
+            //found
+
+            //play_time
+            //play_id
+            artistRecID = artistRec.getUniqueValue();
+
+        } else {
+            //not found
+
+            artistRec.initialize();
+            artistRec.name = artistName;
+            artistRecID = artistRec.insert();
+
+        }
+
+        return artistRecID;
+
+    },
+
+
+
+
+
+    getStationSysIDfromID: function(stationID) {
+
+        var channelRec = new GlideRecord('x_jarodm_xmradio_station');
+        channelRec.addQuery('id', stationID);
+        channelRec.setLimit(1);
+        channelRec.query();
+
+        if (channelRec.next()) {
+
+            return channelRec.getUniqueValue();
+
+        } else {
+
+            gs.error('cant find');
+
+        }
+    },
+
+    processPlays(stationID) {
+
+
+        var timeCode = '';
+
+        var sleepBetweenCalls = parseInt(gs.getProperty('x_jarodm_xmradio.api.sleep_between'));
+
+        var stationRecID = this.getStationSysIDfromID(stationID);
+
+        var maxLoops = parseInt(gs.getProperty('x_jarodm_xmradio.api.station.max_loops'));
+        var maxSongs = parseInt(gs.getProperty('x_jarodm_xmradio.api.station.max_songs')); 
+        var maxDaysBack = parseInt(gs.getProperty('x_jarodm_xmradio.api.station.max_days')) * -1;
+
+        var maxDaysDT = new GlideDateTime();
+        maxDaysDT.addDaysUTC(maxDaysBack);
+        var maxDaysBackEpoch = maxDaysDT.numericValue;
+
+
+        var countLoop = 1;
+        var countSong = 1
+        var maxDaysFound = false;
+
+        while (countLoop <= maxLoops && countSong <= maxSongs && !maxDaysFound) {
+
+            var songsArr = this.getPlays(stationID, timeCode);
+
+            for (x = 1; x <= songsArr.length; x++) {
+
+                gs.warn('starting loop:' + countLoop + ' song:' + countSong);
+                var songObj = songsArr[x - 1];
+                //gs.info('song:' + songObj.track.name);
+
+                var nextAPIStartDT = new GlideDateTime(songObj.start_time.replace('T', ' ').replace('Z', ''))
+
+                var songRecID = this.insertIntoSong(songObj);
+
+                //insert into Play Table
+
+                var playRec = new GlideRecord('x_jarodm_xmradio_plays');
+                if (playRec.get('play_id', songObj.id)) {
+                    //found
+
+                    //play_time
+                    //play_id
+
+                } else {
+                    //not found
+
+                    playRec.initialize();
+                    playRec.play_id = songObj.id;
+                    playRec.play_time = nextAPIStartDT;
+                    playRec.x_jarodm_xmradio_song = songRecID;
+                    playRec.x_jarodm_xmradio_station = stationRecID;
+
+                    playRec.insert();
+                }
+
+
+
+                countSong++;
+
+                timeCode = nextAPIStartDT.numericValue;
+
+
+            }
+
+
+            if (timeCode < maxDaysBackEpoch) {
+                gs.error('stopping loop now due to days');
+                maxDaysFound = true;
+            }
+
+            this._scopeSleep(sleepBetweenCalls);
+            countLoop++;
+
+        }
+
+
+
+    },
+
+
+    getPlays(station, timeCode) {
+
+        //error handle for station
+
+
+        var restMessage = new sn_ws.RESTMessageV2();
+        restMessage.setEndpoint("https://xmplaylist.com/api/station/" + station);
+        restMessage.setHttpMethod("get");
+        if (timeCode) {
+            restMessage.setQueryParameter('last', timeCode);
+        }
+        restMessage.setRequestHeader("accept", "application/json");
+		restMessage.setLogLevel(this.restLogLevel);
+        var response = restMessage.execute();
+        var httpStatus = response.getStatusCode();
+        var responseBody = response.haveError() ? response.getErrorMessage() : response.getBody();
+
+        if (httpStatus === 200) {
+
+            gs.info('API call good');
+
+            var songsArr = JSON.parse(responseBody);
+
+            return songsArr;
+
+
+        } else {
+
+            gs.error('oops');
+        }
+
+
+
+
+    },
+
+    insertIntoPlay: function() {
+        gs.info('insertIntoPlay called');
+
+
+        //x_jarodm_xmradio_plays
+
+        //x_jarodm_xmradio_song
+        //x_jarodm_xmradio_station
+        //play_time
+        //play_id
+    },
+
+
+
+    insertIntoStations: function() {
+
+        var stationObj = this.getStations();
+
+        var runTime = new GlideDateTime();
+
+        for (x = 1; x <= stationObj.length; x++) {
+
+            var curStation = stationObj[x - 1];
+
+            var stationRec = new GlideRecord('x_jarodm_xmradio_station');
+
+            if (stationRec.get('id', curStation.id)) {
+                //record exists
+
+                //stationRec.id = curStation.id;
+                stationRec.name = curStation.name;
+                stationRec.number = curStation.number;
+                stationRec.url = curStation.url;
+                stationRec.playlist = curStation.playlist;
+                stationRec.apple_playlist = curStation.applePlaylist;
+                stationRec.last_seen = runTime;
+
+                stationRec.update();
+
+
+            } else {
+                //record doesn't exist
+
+                stationRec.initialize();
+
+                stationRec.id = curStation.id;
+                stationRec.name = curStation.name;
+                stationRec.number = curStation.number;
+                stationRec.url = curStation.url;
+                stationRec.playlist = curStation.playlist;
+                stationRec.apple_playlist = curStation.applePlaylist;
+                stationRec.last_seen = runTime;
+
+                stationRec.insert();
+
+            }
+
+        }
+
+    },
+
+    getStations: function() {
+        
+
+        var restMessage = new sn_ws.RESTMessageV2();
+        restMessage.setEndpoint("https://xmplaylist.com/api/station");
+        restMessage.setHttpMethod("get");
+        restMessage.setLogLevel(this.restLogLevel);
+        restMessage.setRequestHeader("accept", "application/json");
+
+        var response = restMessage.execute();
+        var httpStatus = response.getStatusCode();
+        var responseBody = response.haveError() ? response.getErrorMessage() : response.getBody();
+
+        if (httpStatus === 200) {
+
+            gs.info('good');
+
+            var stationObj = JSON.parse(responseBody);
+            return stationObj;
+
+        } else {
+
+            gs.error('oops');
+        }
+    },
+
+
+    cleanupTablesForDebugging: function() {
+
+        var tables = [
+            'x_jarodm_xmradio_plays',
+            'x_jarodm_xmradio_m2m_artist_coverage',
+            'x_jarodm_xmradio_artist',
+            'x_jarodm_xmradio_song'
+        ];
+
+        tables.forEach(function(table) {
+            var gr = new GlideRecord(table);
+            gr.query();
+            while (gr.next()) {
+                gr.deleteRecord();
+            }
+
+        });
+
+
+    },
+
+
+
+    _scopeSleep: function(delays) {
+
+        var delayms = delays * 1000;
+        var start = new Date().getTime();
+        while (new Date().getTime() < start + delayms);
+
+    },
+
+
+    type: 'XMTools'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-01-17 21:09:19</sys_created_on>
+        <sys_id>fe6ecfd32b07de10cb9dff55ce91bf60</sys_id>
+        <sys_mod_count>34</sys_mod_count>
+        <sys_name>XMTools</sys_name>
+        <sys_package display_value="SiriusXM Radio Monitor" source="x_jarodm_xmradio">404ecbd32b07de10cb9dff55ce91bf3e</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="SiriusXM Radio Monitor">404ecbd32b07de10cb9dff55ce91bf3e</sys_scope>
+        <sys_update_name>sys_script_include_fe6ecfd32b07de10cb9dff55ce91bf60</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-01-19 16:46:16</sys_updated_on>
+    </sys_script_include>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>fe6ecfd32b07de10cb9dff55ce91bf60</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-01-17 21:56:19</sys_created_on>
+        <sys_id>572957df2b07de10cb9dff55ce91bf22</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-01-17 21:56:19</sys_updated_on>
+        <table>sys_script_include</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

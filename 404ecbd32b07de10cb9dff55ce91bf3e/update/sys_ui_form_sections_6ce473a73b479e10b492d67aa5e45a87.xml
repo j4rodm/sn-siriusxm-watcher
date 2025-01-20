@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_form_sections form_id="6ce473a73b479e10b492d67aa5e45a87" sys_domain="global" table="x_jarodm_xmradio_song" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-01-18 18:35:51</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>28e473a73b479e10b492d67aa5e45a89</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_jarodm_xmradio_song" name="x_jarodm_xmradio_song" sys_domain="global" view="Default view">6ce473a73b479e10b492d67aa5e45a87</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_jarodm_xmradio_song" sys_domain="global" view="Default view">2e84d4af2b0bde10cb9dff55ce91bf75</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-01-18 18:35:51</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>1</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-01-18 18:35:51</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>20e473a73b479e10b492d67aa5e45a8c</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_jarodm_xmradio_song" name="x_jarodm_xmradio_song" sys_domain="global" view="Default view">6ce473a73b479e10b492d67aa5e45a87</sys_ui_form>
+            <sys_ui_section caption="Links" display_value="Links" name="x_jarodm_xmradio_song" sys_domain="global" view="Default view">a0e473a73b479e10b492d67aa5e45a8a</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-01-18 18:35:51</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>2</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-01-18 19:23:19</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>4ccf37a33b879e10b492d67aa5e45a25</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_jarodm_xmradio_song" name="x_jarodm_xmradio_song" sys_domain="global" view="Default view">6ce473a73b479e10b492d67aa5e45a87</sys_ui_form>
+            <sys_ui_section caption="Log" display_value="Log" name="x_jarodm_xmradio_song" sys_domain="global" view="Default view">00cf73a33b879e10b492d67aa5e45aa8</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-01-18 19:23:19</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_jarodm_xmradio_song</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-01-18 18:35:51</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>6ce473a73b479e10b492d67aa5e45a87</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_jarodm_xmradio_song</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="SiriusXM Radio Monitor" source="x_jarodm_xmradio">404ecbd32b07de10cb9dff55ce91bf3e</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="SiriusXM Radio Monitor">404ecbd32b07de10cb9dff55ce91bf3e</sys_scope>
+            <sys_update_name>sys_ui_form_sections_6ce473a73b479e10b492d67aa5e45a87</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-01-18 18:35:51</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

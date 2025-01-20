@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="x_jarodm_xmradio_run">
+    <x_jarodm_xmradio_run action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <business_calendar/>
+        <condition/>
+        <conditional>false</conditional>
+        <entered_time>1970-01-01 00:00:00</entered_time>
+        <max_drift/>
+        <name>Build Artist Coverage</name>
+        <offset/>
+        <offset_type>0</offset_type>
+        <run_as display_value="System Administrator">6816f79cc0a8016401c5a33be04be441</run_as>
+        <run_as_tz/>
+        <run_dayofmonth>1</run_dayofmonth>
+        <run_dayofweek>1</run_dayofweek>
+        <run_period>1970-01-01 00:15:00</run_period>
+        <run_start>2025-01-19 15:24:31</run_start>
+        <run_time>1970-01-01 07:00:00</run_time>
+        <run_type>periodically</run_type>
+        <script><![CDATA[var xmt = new XMTools();
+
+//xmt.processPlays('lithium');
+
+//xmt.cleanupTablesForDebugging();
+
+xmt.buildArtistCoverageFromPlays();
+]]></script>
+        <sys_class_name>x_jarodm_xmradio_run</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-01-19 15:24:50</sys_created_on>
+        <sys_id>6fa210883b97de10b492d67aa5e45a78</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Build Artist Coverage</sys_name>
+        <sys_package display_value="SiriusXM Radio Monitor" source="x_jarodm_xmradio">404ecbd32b07de10cb9dff55ce91bf3e</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="SiriusXM Radio Monitor">404ecbd32b07de10cb9dff55ce91bf3e</sys_scope>
+        <sys_update_name>x_jarodm_xmradio_run_6fa210883b97de10b492d67aa5e45a78</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-01-19 15:24:50</sys_updated_on>
+        <time_zone/>
+        <upgrade_safe>false</upgrade_safe>
+    </x_jarodm_xmradio_run>
+    <sys_es_latest_script action="INSERT_OR_UPDATE">
+        <id>6fa210883b97de10b492d67aa5e45a78</id>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-01-19 15:24:49</sys_created_on>
+        <sys_id>08c210883b97de10b492d67aa5e45acd</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-01-19 15:24:49</sys_updated_on>
+        <table>x_jarodm_xmradio_run</table>
+        <use_es_latest>true</use_es_latest>
+    </sys_es_latest_script>
+</record_update>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="a2774cef2bc7de10cb9dff55ce91bfba" label="Artist" max_length="40" name="x_jarodm_xmradio_artist" type="collection">
+        <element display="true" label="Name" max_length="120" name="name" type="string"/>
+    </element>
+</database>
