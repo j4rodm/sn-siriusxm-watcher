@@ -15,8 +15,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 2. Explore features
 3. Please return to the Share page and review 
 
-![Alt](docs/img/left-bar-application.png "Libra Left Bar")
-
 ### Feature One
 Remove unwanted left-bar applications from your view, without impacting other users on the instance, and without modifying any records.
 
